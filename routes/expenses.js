@@ -40,6 +40,49 @@ app.post('/api/newExpense',(req,res) => {
     })
   });
 
+/*******************************************
+ * Update Expense
+*******************************************/
+app.post('/api/updateExpense/:id',(req,res) => {    
+    console.log("updateExpense", req.body)
+    Expense.findOneAndUpdate({
+        _id         : req.params.id
+    },{
+        $set: {
+            id          : req.body.id,
+            title       : req.body.title,
+            description : req.body.description,
+            balance     : req.body.balance,
+            amount      : req.body.amount,
+            frequency   : req.body.frequency,
+            date        : req.body.date,
+        }
+    },(err, doc) => {
+        if(doc)
+            res.send('Post updated successfully!');
+        else {
+            res.stastus(404).send('Oops! '+err);
+        }
+    })
+  });
+
+
+/*******************************************
+ * Delete Expense
+*******************************************/
+app.post('/api/deleteExpense/:id',(req,res) => {    
+    console.log("deleteExpense", req.body)
+    Expense.findOneAndRemove({
+        _id         : req.params.id
+    },{},(err, doc) => {
+        if(doc)
+            res.send('Post deleted successfully!');
+        else {
+            res.stastus(404).send('Oops! '+err);
+        }
+    })
+  });
+
 
 
 
